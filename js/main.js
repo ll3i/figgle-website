@@ -1,4 +1,4 @@
-// Figgle ���� �ڹٽ�ũ��Ʈ ����
+// Figgle 메인 자바스크립트 파일
 
 document.addEventListener('DOMContentLoaded', () => {
   // 스크롤 애니메이션 효과
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // 모바일 메뉴 처리 (필요시 구현)
+  // 모바일 메뉴 처리
   const addMobileMenuToggle = () => {
     const header = document.querySelector('header');
     const nav = document.querySelector('nav');
@@ -71,8 +71,8 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('resize', checkWindowSize);
   };
   
-  // 필요시 모바일 메뉴 토글 기능 활성화
-  // addMobileMenuToggle();
+  // 모바일 메뉴 토글 기능 활성화
+  addMobileMenuToggle();
 
   // 문의하기 폼 처리
   const contactForm = document.querySelector('.contact-form');
@@ -148,6 +148,86 @@ document.addEventListener('DOMContentLoaded', () => {
         display: flex;
       }
     }
+    
+    /* 모달 스타일 */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.5);
+    }
+    .modal-content {
+      background-color: white;
+      margin: 10% auto;
+      padding: 2rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--shadow-md);
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      right: 1.5rem;
+      top: 1rem;
+      font-size: 2rem;
+      color: var(--light-text);
+      cursor: pointer;
+    }
+    .close:hover {
+      color: var(--text-color);
+    }
+    .modal h2 {
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+    .form-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+    .form-actions button {
+      flex: 1;
+    }
+    .forgot-password {
+      margin-top: 1rem;
+      text-align: center;
+    }
+    .forgot-password a {
+      color: var(--primary-color);
+      font-size: 0.9rem;
+      text-decoration: none;
+    }
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
   `;
   document.head.appendChild(style);
+  
+  // 요금제 버튼 기능 구현
+  const pricingButtons = document.querySelectorAll('.pricing-plan .btn');
+  pricingButtons.forEach(button => {
+    button.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      // 로그인 확인
+      if (sessionStorage.getItem('isLoggedIn') !== 'true') {
+        alert('서비스를 이용하기 위해 로그인이 필요합니다.');
+        loginModal.style.display = 'block';
+      } else {
+        // 해당 요금제 선택 처리
+        const planName = this.closest('.pricing-plan').querySelector('h3').textContent;
+        alert(`${planName} 요금제를 선택하셨습니다. 결제 페이지로 이동합니다.`);
+        // 결제 페이지 이동 처리 (구현 필요시)
+      }
+    });
+  });
 });

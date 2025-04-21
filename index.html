@@ -27,7 +27,7 @@
             <p>학습 경험을 혁신적으로 바꿔줄 인공지능 플랫폼으로 더 효율적이고 개인화된 학습을 경험하세요.</p>
             <div class="hero-cta">
                 <a href="#features" class="btn btn-primary"><i class="fas fa-rocket"></i> 시작하기</a>
-                <a href="#demo" class="btn btn-secondary"><i class="fas fa-play-circle"></i> 데모 보기</a>
+                <a href="demo.html" class="btn btn-secondary"><i class="fas fa-play-circle"></i> 데모 보기</a>
             </div>
             <div class="hero-image">
                 <img src="images/hero-illustration.svg" alt="Figgle AI 학습 플랫폼 일러스트레이션">
@@ -141,7 +141,7 @@
                     <div class="testimonial-author">
                         <img src="images/user1.jpg" alt="김민준">
                         <div>
-                            <h4>김민준</h4>
+                            <h4>김**</h4>
                             <p>컴퓨터공학 전공 학생</p>
                         </div>
                     </div>
@@ -154,7 +154,7 @@
                     <div class="testimonial-author">
                         <img src="images/user2.jpg" alt="이서연">
                         <div>
-                            <h4>이서연</h4>
+                            <h4>이**</h4>
                             <p>UX 디자이너</p>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
                     <div class="testimonial-author">
                         <img src="images/user3.jpg" alt="박준호">
                         <div>
-                            <h4>박준호</h4>
+                            <h4>박**</h4>
                             <p>대학원생</p>
                         </div>
                     </div>
@@ -254,15 +254,19 @@
                 <form class="contact-form">
                     <div class="form-group">
                         <label for="name">이름</label>
-                        <input type="text" id="name" placeholder="이름을 입력하세요">
+                        <input type="text" id="name" placeholder="이름을 입력하세요" required>
                     </div>
                     <div class="form-group">
                         <label for="email">이메일</label>
-                        <input type="email" id="email" placeholder="이메일을 입력하세요">
+                        <input type="email" id="email" placeholder="이메일을 입력하세요" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">제목</label>
+                        <input type="text" id="subject" placeholder="제목을 입력하세요" required>
                     </div>
                     <div class="form-group">
                         <label for="message">메시지</label>
-                        <textarea id="message" rows="5" placeholder="문의 내용을 입력하세요"></textarea>
+                        <textarea id="message" rows="5" placeholder="문의 내용을 입력하세요" required></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">보내기</button>
                 </form>
@@ -316,5 +320,6 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script src="js/login.js"></script>
 </body>
 </html>

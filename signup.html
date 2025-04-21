@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입 - Figgle</title>
+    <link rel='stylesheet' href='css/style.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .signup-container {
+            max-width: 600px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .signup-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .signup-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        .signup-header p {
+            color: var(--light-text);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(66, 133, 244, 0.2);
+        }
+        
+        .form-group .help-text {
+            font-size: 0.8rem;
+            color: var(--light-text);
+            margin-top: 0.4rem;
+        }
+        
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 5px;
+            background-color: #eee;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .password-strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s;
+        }
+        
+        .password-strength-text {
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .form-actions {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .form-actions .login-link {
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+        
+        .form-actions .login-link:hover {
+            text-decoration: underline;
+        }
+        
+        .terms-checkbox {
+            margin-top: 1rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .terms-checkbox input {
+            margin-top: 0.3rem;
+            margin-right: 0.5rem;
+        }
+        
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Figgle</h1>
+        <nav>
+            <a href='index.html'><i class="fas fa-home"></i> 홈으로</a>
+        </nav>
+    </header>
+    
+    <main>
+        <div class="signup-container">
+            <div class="signup-header">
+                <h1>회원가입</h1>
+                <p>Figgle 서비스를 이용하기 위한 계정을 생성합니다</p>
+            </div>
+            
+            <form id="signup-form">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="first-name">이름</label>
+                        <input type="text" id="first-name" name="first-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="last-name">성</label>
+                        <input type="text" id="last-name" name="last-name" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" name="email" required>
+                    <p class="help-text">서비스 알림 및 계정 관리에 사용됩니다</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password" id="password" name="password" required>
+                    <div class="password-strength">
+                        <div class="password-strength-bar"></div>
+                    </div>
+                    <p class="password-strength-text">비밀번호 강도: 입력해주세요</p>
+                    <p class="help-text">8자 이상, 문자, 숫자, 특수문자를 포함해야 합니다</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirm-password">비밀번호 확인</label>
+                    <input type="password" id="confirm-password" name="confirm-password" required>
+                </div>
+                
+                <div class="terms-checkbox">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <label for="terms">
+                        <a href="#" class="terms-link">이용약관</a>과 <a href="#" class="terms-link">개인정보처리방침</a>에 동의합니다.
+                    </label>
+                </div>
+                
+                <div class="form-actions">
+                    <a href="index.html" class="login-link">이미 계정이 있으신가요?</a>
+                    <button type="submit" class="btn btn-primary">회원가입</button>
+                </div>
+            </form>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>Figgle</h2>
+                    <p>AI 기반 학습 지원 플랫폼</p>
+                </div>
+                <div class="footer-links">
+                    <div class="link-group">
+                        <h3>회사</h3>
+                        <ul>
+                            <li><a href="#">소개</a></li>
+                            <li><a href="#">블로그</a></li>
+                            <li><a href="#">채용</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>서비스</h3>
+                        <ul>
+                            <li><a href="#">요금제</a></li>
+                            <li><a href="#">기업용</a></li>
+                            <li><a href="#">개발자</a></li>
+                        </ul>
+                    </div>
+                    <div class="link-group">
+                        <h3>지원</h3>
+                        <ul>
+                            <li><a href="#">문의하기</a></li>
+                            <li><a href="#">FAQ</a></li>
+                            <li><a href="#">튜토리얼</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Figgle. All rights reserved.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // 비밀번호 강도 체크
+            const passwordInput = document.getElementById('password');
+            const strengthBar = document.querySelector('.password-strength-bar');
+            const strengthText = document.querySelector('.password-strength-text');
+            
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = 0;
+                let strengthMsg = '';
+                
+                if (password.length >= 8) strength += 1;
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
+                if (password.match(/\d/)) strength += 1;
+                if (password.match(/[^a-zA-Z\d]/)) strength += 1;
+                
+                switch (strength) {
+                    case 0:
+                        strengthBar.style.width = '0%';
+                        strengthBar.style.backgroundColor = '#eee';
+                        strengthMsg = '입력해주세요';
+                        break;
+                    case 1:
+                        strengthBar.style.width = '25%';
+                        strengthBar.style.backgroundColor = '#ff4747';
+                        strengthMsg = '매우 약함';
+                        break;
+                    case 2:
+                        strengthBar.style.width = '50%';
+                        strengthBar.style.backgroundColor = '#ffa534';
+                        strengthMsg = '약함';
+                        break;
+                    case 3:
+                        strengthBar.style.width = '75%';
+                        strengthBar.style.backgroundColor = '#ffdd33';
+                        strengthMsg = '보통';
+                        break;
+                    case 4:
+                        strengthBar.style.width = '100%';
+                        strengthBar.style.backgroundColor = '#14eb6e';
+                        strengthMsg = '강함';
+                        break;
+                }
+                
+                strengthText.textContent = `비밀번호 강도: ${strengthMsg}`;
+            });
+            
+            // 비밀번호 확인 체크
+            const confirmInput = document.getElementById('confirm-password');
+            
+            confirmInput.addEventListener('input', function() {
+                if (this.value === passwordInput.value) {
+                    this.style.borderColor = '#14eb6e';
+                } else {
+                    this.style.borderColor = '#ff4747';
+                }
+            });
+            
+            // 폼 제출 처리
+            const signupForm = document.getElementById('signup-form');
+            
+            signupForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 간단한 폼 유효성 검사
+                const email = document.getElementById('email').value.trim();
+                const password = passwordInput.value;
+                const confirmPassword = confirmInput.value;
+                const termsAgreed = document.getElementById('terms').checked;
+                
+                // 이메일 유효성 검사
+                const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if (!emailRegex.test(email)) {
+                    alert('유효한 이메일 주소를 입력해주세요.');
+                    return;
+                }
+                
+                // 비밀번호 확인
+                if (password !== confirmPassword) {
+                    alert('비밀번호가 일치하지 않습니다.');
+                    return;
+                }
+                
+                // 비밀번호 강도 확인
+                let strength = 0;
+                if (password.length >= 8) strength += 1;
+                if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
+                if (password.match(/\d/)) strength += 1;
+                if (password.match(/[^a-zA-Z\d]/)) strength += 1;
+                
+                if (strength < 3) {
+                    alert('비밀번호가 너무 약합니다. 문자, 숫자, 특수문자를 포함한 8자 이상으로 설정해주세요.');
+                    return;
+                }
+                
+                // 약관 동의 확인
+                if (!termsAgreed) {
+                    alert('이용약관 및 개인정보처리방침에 동의해주세요.');
+                    return;
+                }
+                
+                // 모든 유효성 검사 통과 시
+                alert('회원가입이 성공적으로 완료되었습니다! 로그인 페이지로 이동합니다.');
+                window.location.href = 'index.html';
+            });
+            
+            // 약관 모달 처리
+            const termsLinks = document.querySelectorAll('.terms-link');
+            
+            termsLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    alert('서비스 오픈 전 준비 중입니다.');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
