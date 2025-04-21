@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1Day1Message - Figgle</title>
+    <link rel='stylesheet' href='../css/style.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .feature-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .feature-detail h1 {
+            color: #4285f4;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-detail h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34a853;
+        }
+        
+        .feature-detail ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-detail li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .message-card {
+            background-color: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .message-card::before {
+            content: "\201C";
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 150px;
+            color: rgba(66, 133, 244, 0.1);
+            font-family: Georgia, serif;
+        }
+        
+        .message-content {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .message-author {
+            font-style: italic;
+            text-align: right;
+            color: #666;
+        }
+        
+        .message-date {
+            display: block;
+            text-align: right;
+            font-size: 0.9rem;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        .message-categories {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .message-category {
+            padding: 5px 15px;
+            background-color: #e8f5e9;
+            color: #34a853;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .message-actions {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+        
+        .message-action-btn {
+            background: none;
+            border: none;
+            color: #4285f4;
+            cursor: pointer;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+        }
+        
+        .message-action-btn svg {
+            margin-right: 5px;
+        }
+        
+        .message-history {
+            margin-top: 40px;
+        }
+        
+        .history-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        
+        .history-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .history-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .history-date {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .settings-section {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        
+        .settings-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .settings-title svg {
+            margin-right: 10px;
+        }
+        
+        .settings-form {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        .form-group select, .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .save-btn {
+            grid-column: span 2;
+            padding: 10px;
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            background-color: #3367d6;
+        }
+        
+        @media (max-width: 768px) {
+            .settings-form {
+                grid-template-columns: 1fr;
+            }
+            
+            .save-btn {
+                grid-column: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html" style="color: white; text-decoration: none;">Figgle</a></h1>
+        <nav>
+            <a href='../index.html'>홈</a>
+            <a href='ai-secretary.html'>AI 비서</a>
+            <a href='ai-tutor.html'>AI 튜터</a>
+            <a href='ai-facilitator.html'>AI 퍼실리테이터</a>
+            <a href='ai-reflection.html'>AI 리플렉션</a>
+            <a href='daily-message.html'>1Day1Message</a>
+            <a href='ai-exam.html'>AI 시험관리</a>
+            <a href='ai-coding-quiz.html'>AI 코딩 퀴즈</a>
+        </nav>
+    </header>
+    <main>
+        <div class="feature-detail">
+            <h1>1Day1Message</h1>
+            <p>매일 학습 동기를 부여하는 영감을 주는 메시지를 받아보세요. 지속적인 학습 동기부여와 함께 새로운 시작을 열어가는 습관을 만들어드립니다. AI가 사용자의 학습 패턴, 목표, 감정 상태를 분석하여 가장 적절한 메시지를 제공합니다.</p>
+            
+            <div class="message-card">
+                <div class="message-content">
+                    "학습은 과정이 아닌 여정입니다. 오늘의 작은 노력이 내일의 큰 변화를 만듭니다. 당신이 지금 투자하는 모든 시간은 미래의 자신에게 보내는 가장 소중한 선물입니다."
+                </div>
+                <div class="message-author">- 앨버트 아인슈타인</div>
+                <div class="message-date">2023년 10월 24일</div>
+                <div class="message-categories">
+                    <span class="message-category">동기부여</span>
+                    <span class="message-category">학습 여정</span>
+                </div>
+                <div class="message-actions">
+                    <button class="message-action-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M7 17L17 7M17 7H7M17 7V17" stroke="#4285f4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        공유하기
+                    </button>
+                    <button class="message-action-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="#4285f4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        저장하기
+                    </button>
+                </div>
+            </div>
+            
+            <h2>주요 기능</h2>
+            <ul>
+                <li><strong>학습 상황에 맞춘 메시지</strong> - 학습 패턴과 진도에 따라 맞춤형 메시지 제공</li>
+                <li><strong>학습 목표별 특화 동기부여 메시지</strong> - 단기, 중기, 장기 목표에 맞는 차별화된 격려</li>
+                <li><strong>명언, 시, 유머 등 다양한 형태의 컨텐츠</strong> - 매일 새로운 형태의 메시지로 신선함 유지</li>
+                <li><strong>알림 시간 설정 기능</strong> - 가장 효과적인 시간에 메시지 수신</li>
+                <li><strong>메시지 아카이브 및 북마크 기능</strong> - 영감을 받은 메시지를 저장하고 나중에 다시 확인</li>
+                <li><strong>감정 분석 기반 메시지</strong> - 학습자의 현재 감정 상태를 분석하여 적절한 메시지 제공</li>
+                <li><strong>커스텀 메시지 설정</strong> - 선호하는 메시지 유형과 스타일 맞춤 설정</li>
+            </ul>
+            
+            <h2>메시지 히스토리</h2>
+            <div class="message-history">
+                <ul class="history-list">
+                    <li class="history-item">
+                        <div>"큰 목표는 작은 시작에서 비롯됩니다. 오늘 한 걸음을 내딛으세요."</div>
+                        <div class="history-date">2023.10.23</div>
+                    </li>
+                    <li class="history-item">
+                        <div>"실패는 성공의 어머니입니다. 오늘의 어려움이 내일의 성취로 이어집니다."</div>
+                        <div class="history-date">2023.10.22</div>
+                    </li>
+                    <li class="history-item">
+                        <div>"평범한 노력은 평범한 결과를, 비범한 노력은 비범한 결과를 만듭니다."</div>
+                        <div class="history-date">2023.10.21</div>
+                    </li>
+                    <li class="history-item">
+                        <div>"아는 것이 힘이 아니라, 아는 것을 실천하는 것이 진정한 힘입니다."</div>
+                        <div class="history-date">2023.10.20</div>
+                    </li>
+                </ul>
+            </div>
+            
+            <h2>설정</h2>
+            <div class="settings-section">
+                <div class="settings-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M19.4 15C19.2669 15.3016 19.2272 15.6362 19.286 15.9606C19.3448 16.285 19.4995 16.5843 19.73 16.82L19.79 16.88C19.976 17.0657 20.1235 17.2863 20.2241 17.5291C20.3248 17.7719 20.3766 18.0322 20.3766 18.295C20.3766 18.5578 20.3248 18.8181 20.2241 19.0609C20.1235 19.3037 19.976 19.5243 19.79 19.71C19.6043 19.896 19.3837 20.0435 19.1409 20.1441C18.8981 20.2448 18.6378 20.2966 18.375 20.2966C18.1122 20.2966 17.8519 20.2448 17.6091 20.1441C17.3663 20.0435 17.1457 19.896 16.96 19.71L16.9 19.65C16.6643 19.4195 16.365 19.2648 16.0406 19.206C15.7162 19.1472 15.3816 19.1869 15.08 19.32C14.7842 19.4468 14.532 19.6572 14.3543 19.9255C14.1766 20.1938 14.0813 20.5082 14.08 20.83V21C14.08 21.5304 13.8693 22.0391 13.4942 22.4142C13.1191 22.7893 12.6104 23 12.08 23C11.5496 23 11.0409 22.7893 10.6658 22.4142C10.2907 22.0391 10.08 21.5304 10.08 21V20.91C10.0723 20.579 9.96512 20.258 9.77251 19.9887C9.5799 19.7194 9.31074 19.5143 9 19.4C8.69838 19.2669 8.36381 19.2272 8.03941 19.286C7.71502 19.3448 7.41568 19.4995 7.18 19.73L7.12 19.79C6.93425 19.976 6.71368 20.1235 6.47088 20.2241C6.22808 20.3248 5.96783 20.3766 5.705 20.3766C5.44217 20.3766 5.18192 20.3248 4.93912 20.2241C4.69632 20.1235 4.47575 19.976 4.29 19.79C4.10405 19.6043 3.95653 19.3837 3.85588 19.1409C3.75523 18.8981 3.70343 18.6378 3.70343 18.375C3.70343 18.1122 3.75523 17.8519 3.85588 17.6091C3.95653 17.3663 4.10405 17.1457 4.29 16.96L4.35 16.9C4.58054 16.6643 4.73519 16.365 4.794 16.0406C4.85282 15.7162 4.81312 15.3816 4.68 15.08C4.55324 14.7842 4.34276 14.532 4.07447 14.3543C3.80618 14.1766 3.49179 14.0813 3.17 14.08H3C2.46957 14.08 1.96086 13.8693 1.58579 13.4942C1.21071 13.1191 1 12.6104 1 12.08C1 11.5496 1.21071 11.0409 1.58579 10.6658C1.96086 10.2907 2.46957 10.08 3 10.08H3.09C3.42099 10.0723 3.742 9.96512 4.0113 9.77251C4.28059 9.5799 4.48572 9.31074 4.6 9C4.73312 8.69838 4.77282 8.36381 4.714 8.03941C4.65519 7.71502 4.50054 7.41568 4.27 7.18L4.21 7.12C4.02405 6.93425 3.87653 6.71368 3.77588 6.47088C3.67523 6.22808 3.62343 5.96783 3.62343 5.705C3.62343 5.44217 3.67523 5.18192 3.77588 4.93912C3.87653 4.69632 4.02405 4.47575 4.21 4.29C4.39575 4.10405 4.61632 3.95653 4.85912 3.85588C5.10192 3.75523 5.36217 3.70343 5.625 3.70343C5.88783 3.70343 6.14808 3.75523 6.39088 3.85588C6.63368 3.95653 6.85425 4.10405 7.04 4.29L7.1 4.35C7.33568 4.58054 7.63502 4.73519 7.95941 4.794C8.28381 4.85282 8.61838 4.81312 8.92 4.68H9C9.29577 4.55324 9.54802 4.34276 9.72569 4.07447C9.90337 3.80618 9.99872 3.49179 10 3.17V3C10 2.46957 10.2107 1.96086 10.5858 1.58579C10.9609 1.21071 11.4696 1 12 1C12.5304 1 13.0391 1.21071 13.4142 1.58579C13.7893 1.96086 14 2.46957 14 3V3.09C14.0013 3.41179 14.0966 3.72618 14.2743 3.99447C14.452 4.26276 14.7042 4.47324 15 4.6C15.3016 4.73312 15.6362 4.77282 15.9606 4.714C16.285 4.65519 16.5843 4.50054 16.82 4.27L16.88 4.21C17.0657 4.02405 17.2863 3.87653 17.5291 3.77588C17.7719 3.67523 18.0322 3.62343 18.295 3.62343C18.5578 3.62343 18.8181 3.67523 19.0609 3.77588C19.3037 3.87653 19.5243 4.02405 19.71 4.21C19.896 4.39575 20.0435 4.61632 20.1441 4.85912C20.2448 5.10192 20.2966 5.36217 20.2966 5.625C20.2966 5.88783 20.2448 6.14808 20.1441 6.39088C20.0435 6.63368 19.896 6.85425 19.71 7.04L19.65 7.1C19.4195 7.33568 19.2648 7.63502 19.206 7.95941C19.1472 8.28381 19.1869 8.61838 19.32 8.92V9C19.4468 9.29577 19.6572 9.54802 19.9255 9.72569C20.1938 9.90337 20.5082 9.99872 20.83 10H21C21.5304 10 22.0391 10.2107 22.4142 10.5858C22.7893 10.9609 23 11.4696 23 12C23 12.5304 22.7893 13.0391 22.4142 13.4142C22.0391 13.7893 21.5304 14 21 14H20.91C20.5882 14.0013 20.2738 14.0966 20.0055 14.2743C19.7372 14.452 19.5268 14.7042 19.4 15Z" stroke="#333" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <h3>메시지 수신 설정</h3>
+                </div>
+                <form class="settings-form">
+                    <div class="form-group">
+                        <label for="message-time">메시지 수신 시간</label>
+                        <input type="time" id="message-time" value="07:00">
+                    </div>
+                    <div class="form-group">
+                        <label for="message-type">메시지 유형</label>
+                        <select id="message-type">
+                            <option value="all">모든 유형</option>
+                            <option value="quote">명언</option>
+                            <option value="poem">시</option>
+                            <option value="story">짧은 이야기</option>
+                            <option value="humor">유머</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="message-category">카테고리</label>
+                        <select id="message-category">
+                            <option value="all">모든 카테고리</option>
+                            <option value="motivation">동기부여</option>
+                            <option value="focus">집중력</option>
+                            <option value="perseverance">인내심</option>
+                            <option value="success">성공</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="notification">알림 방식</label>
+                        <select id="notification">
+                            <option value="app">앱 알림</option>
+                            <option value="email">이메일</option>
+                            <option value="both">앱 알림 + 이메일</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="save-btn">설정 저장</button>
+                </form>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Figgle</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 메시지 데이터
+            const messages = [
+                {
+                    content: "학습은 과정이 아닌 여정입니다. 오늘의 작은 노력이 내일의 큰 변화를 만듭니다. 당신이 지금 투자하는 모든 시간은 미래의 자신에게 보내는 가장 소중한 선물입니다.",
+                    author: "앨버트 아인슈타인",
+                    date: "2023년 10월 24일",
+                    categories: ["동기부여", "학습 여정"]
+                },
+                {
+                    content: "큰 목표는 작은 시작에서 비롯됩니다. 오늘 한 걸음을 내딛으세요.",
+                    author: "라오쯔",
+                    date: "2023년 10월 23일",
+                    categories: ["목표", "시작"]
+                },
+                {
+                    content: "실패는 성공의 어머니입니다. 오늘의 어려움이 내일의 성취로 이어집니다.",
+                    author: "토마스 에디슨",
+                    date: "2023년 10월 22일",
+                    categories: ["실패", "성장"]
+                },
+                {
+                    content: "평범한 노력은 평범한 결과를, 비범한 노력은 비범한 결과를 만듭니다.",
+                    author: "콜린 파월",
+                    date: "2023년 10월 21일",
+                    categories: ["노력", "성취"]
+                },
+                {
+                    content: "아는 것이 힘이 아니라, 아는 것을 실천하는 것이 진정한 힘입니다.",
+                    author: "공자",
+                    date: "2023년 10월 20일",
+                    categories: ["실천", "행동"]
+                },
+                {
+                    content: "오늘 할 수 있는 일을 내일로 미루지 마세요. 지금 이 순간이 가장 젊은 순간입니다.",
+                    author: "벤자민 프랭클린",
+                    date: "2023년 10월 19일",
+                    categories: ["시간 관리", "현재"]
+                },
+                {
+                    content: "성공의 비결은 단 한 가지, 잘할 수 있는 일에 광적으로 집중하는 것입니다.",
+                    author: "톰 모나건",
+                    date: "2023년 10월 18일",
+                    categories: ["집중", "전문성"]
+                }
+            ];
+            
+            // 메시지 액션 버튼 이벤트 리스너 추가
+            const shareBtn = document.querySelector('.message-action-btn:first-child');
+            const saveBtn = document.querySelector('.message-action-btn:last-child');
+            
+            if (shareBtn) {
+                shareBtn.addEventListener('click', function() {
+                    alert('현재 메시지가 클립보드에 복사되었습니다.');
+                    
+                    // 클립보드에 메시지 복사
+                    const message = document.querySelector('.message-content').textContent;
+                    const author = document.querySelector('.message-author').textContent;
+                    
+                    navigator.clipboard.writeText(`${message} ${author}`)
+                        .catch(err => {
+                            console.error('클립보드 복사 실패:', err);
+                        });
+                });
+            }
+            
+            if (saveBtn) {
+                saveBtn.addEventListener('click', function() {
+                    this.innerHTML = `
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" fill="#4285f4" stroke="#4285f4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                        저장됨
+                    `;
+                    
+                    this.style.color = '#4285f4';
+                    this.style.fontWeight = 'bold';
+                    
+                    alert('메시지가 저장되었습니다.');
+                });
+            }
+            
+            // 메시지 히스토리 클릭 시 해당 메시지 표시
+            const historyItems = document.querySelectorAll('.history-item');
+            historyItems.forEach((item, index) => {
+                item.style.cursor = 'pointer';
+                item.addEventListener('click', function() {
+                    displayMessage(messages[index + 1]); // index + 1은 현재 메시지를 제외한 인덱스
+                });
+            });
+            
+            // 설정 폼 제출 이벤트
+            const settingsForm = document.querySelector('.settings-form');
+            if (settingsForm) {
+                settingsForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const messageTime = document.getElementById('message-time').value;
+                    const messageType = document.getElementById('message-type').value;
+                    const messageCategory = document.getElementById('message-category').value;
+                    const notification = document.getElementById('notification').value;
+                    
+                    // 설정 저장 확인 메시지
+                    const confirmModal = document.createElement('div');
+                    confirmModal.style.position = 'fixed';
+                    confirmModal.style.top = '0';
+                    confirmModal.style.left = '0';
+                    confirmModal.style.width = '100%';
+                    confirmModal.style.height = '100%';
+                    confirmModal.style.backgroundColor = 'rgba(0,0,0,0.7)';
+                    confirmModal.style.display = 'flex';
+                    confirmModal.style.alignItems = 'center';
+                    confirmModal.style.justifyContent = 'center';
+                    confirmModal.style.zIndex = '1000';
+                    
+                    const modalContent = document.createElement('div');
+                    modalContent.style.backgroundColor = 'white';
+                    modalContent.style.padding = '30px';
+                    modalContent.style.borderRadius = '10px';
+                    modalContent.style.maxWidth = '500px';
+                    modalContent.style.width = '80%';
+                    
+                    modalContent.innerHTML = `
+                        <h3 style="color: #4285f4; margin-top: 0;">설정 저장 완료</h3>
+                        <p>다음 설정이 저장되었습니다:</p>
+                        <ul style="padding-left: 20px;">
+                            <li><strong>메시지 수신 시간:</strong> ${messageTime}</li>
+                            <li><strong>메시지 유형:</strong> ${document.getElementById('message-type').options[document.getElementById('message-type').selectedIndex].text}</li>
+                            <li><strong>카테고리:</strong> ${document.getElementById('message-category').options[document.getElementById('message-category').selectedIndex].text}</li>
+                            <li><strong>알림 방식:</strong> ${document.getElementById('notification').options[document.getElementById('notification').selectedIndex].text}</li>
+                        </ul>
+                        <p>내일부터 새로운 설정으로 메시지가 제공됩니다.</p>
+                        <button id="confirm-btn" style="padding: 10px 20px; background-color: #4285f4; color: white; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">확인</button>
+                    `;
+                    
+                    document.body.appendChild(confirmModal);
+                    
+                    document.getElementById('confirm-btn').addEventListener('click', function() {
+                        document.body.removeChild(confirmModal);
+                    });
+                });
+            }
+            
+            // 메시지 표시 함수
+            function displayMessage(message) {
+                const contentEl = document.querySelector('.message-content');
+                const authorEl = document.querySelector('.message-author');
+                const dateEl = document.querySelector('.message-date');
+                const categoriesEl = document.querySelector('.message-categories');
+                
+                if (contentEl && authorEl && dateEl && categoriesEl) {
+                    // 기존 내용을 페이드 아웃
+                    contentEl.style.transition = 'opacity 0.3s ease';
+                    authorEl.style.transition = 'opacity 0.3s ease';
+                    dateEl.style.transition = 'opacity 0.3s ease';
+                    categoriesEl.style.transition = 'opacity 0.3s ease';
+                    
+                    contentEl.style.opacity = '0';
+                    authorEl.style.opacity = '0';
+                    dateEl.style.opacity = '0';
+                    categoriesEl.style.opacity = '0';
+                    
+                    setTimeout(() => {
+                        // 내용 업데이트
+                        contentEl.textContent = message.content;
+                        authorEl.textContent = `- ${message.author}`;
+                        dateEl.textContent = message.date;
+                        
+                        // 카테고리 업데이트
+                        categoriesEl.innerHTML = '';
+                        message.categories.forEach(category => {
+                            const span = document.createElement('span');
+                            span.className = 'message-category';
+                            span.textContent = category;
+                            categoriesEl.appendChild(span);
+                        });
+                        
+                        // 페이드 인
+                        contentEl.style.opacity = '1';
+                        authorEl.style.opacity = '1';
+                        dateEl.style.opacity = '1';
+                        categoriesEl.style.opacity = '1';
+                        
+                        // 저장 버튼 초기화
+                        const saveBtn = document.querySelector('.message-action-btn:last-child');
+                        if (saveBtn) {
+                            saveBtn.innerHTML = `
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M19 21L12 16L5 21V5C5 4.46957 5.21071 3.96086 5.58579 3.58579C5.96086 3.21071 6.46957 3 7 3H17C17.5304 3 18.0391 3.21071 18.4142 3.58579C18.7893 3.96086 19 4.46957 19 5V21Z" stroke="#4285f4" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                저장하기
+                            `;
+                            saveBtn.style.color = '';
+                            saveBtn.style.fontWeight = '';
+                        }
+                    }, 300);
+                }
+            }
+            
+            // 랜덤 메시지 생성 기능
+            function getRandomMessage() {
+                // 기본 메시지 템플릿
+                const templates = [
+                    "오늘 하루도 당신의 노력이 빛을 발할 것입니다. {keyword}을 기억하세요.",
+                    "{keyword}의 가치는 시간이 지날수록 더욱 빛을 발합니다. 오늘도 한 걸음씩 나아가세요.",
+                    "성공의 비결은 {keyword}에 있습니다. 오늘 하루도 최선을 다해보세요.",
+                    "당신의 {keyword}이 미래를 만듭니다. 지금 이 순간을 소중히 여기세요.",
+                    "위대한 여정은 {keyword}으로부터 시작됩니다. 오늘도 당신을 응원합니다."
+                ];
+                
+                // 키워드 목록
+                const keywords = [
+                    "꾸준함", "열정", "도전", "창의성", "인내", "집중", "회복력", 
+                    "긍정적 사고", "자기 성찰", "목표 의식", "자기 관리", "지속적 학습"
+                ];
+                
+                // 저자 목록
+                const authors = [
+                    "알버트 아인슈타인", "스티브 잡스", "마크 트웨인", "헬렌 켈러", "마하트마 간디",
+                    "마야 안젤루", "공자", "세네카", "소크라테스", "니체", "칸트", "아리스토텔레스"
+                ];
+                
+                // 랜덤 선택
+                const template = templates[Math.floor(Math.random() * templates.length)];
+                const keyword = keywords[Math.floor(Math.random() * keywords.length)];
+                const author = authors[Math.floor(Math.random() * authors.length)];
+                
+                // 날짜 생성
+                const today = new Date();
+                const dateOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+                const dateStr = today.toLocaleDateString('ko-KR', dateOptions);
+                
+                // 메시지 생성
+                const content = template.replace('{keyword}', keyword);
+                const categories = [keyword, "동기부여"];
+                
+                return {
+                    content,
+                    author,
+                    date: dateStr,
+                    categories
+                };
+            }
+            
+            // 새 메시지 받기 기능 추가
+            const messageCard = document.querySelector('.message-card');
+            if (messageCard) {
+                messageCard.addEventListener('dblclick', function() {
+                    const newMessage = getRandomMessage();
+                    displayMessage(newMessage);
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

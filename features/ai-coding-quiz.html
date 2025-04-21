@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 코딩 퀴즈 - Figgle</title>
+    <link rel='stylesheet' href='../css/style.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .feature-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .feature-detail h1 {
+            color: #4285f4;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-detail h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34a853;
+        }
+        
+        .feature-detail ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-detail li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .quiz-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin: 30px 0;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quiz-title {
+            font-size: 1.3rem;
+            color: #4285f4;
+        }
+        
+        .quiz-level {
+            background-color: #eaf4ff;
+            color: #4285f4;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .quiz-level.medium {
+            background-color: #fff8e6;
+            color: #fbbc04;
+        }
+        
+        .quiz-level.hard {
+            background-color: #ffeaea;
+            color: #ea4335;
+        }
+        
+        .quiz-description {
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+        
+        .code-editor {
+            background-color: #f6f8fa;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+            color: #24292e;
+            overflow-x: auto;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .code-editor-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            color: #6a737d;
+            font-size: 12px;
+        }
+        
+        .language-label {
+            background-color: #e1e4e8;
+            color: #24292e;
+            padding: 2px 8px;
+            border-radius: 3px;
+        }
+        
+        pre {
+            margin: 0;
+            padding: 0;
+            white-space: pre-wrap;
+        }
+        
+        code {
+            display: block;
+            line-height: 1.5;
+        }
+        
+        .code-line {
+            display: block;
+            position: relative;
+            padding-left: 20px;
+        }
+        
+        .line-number {
+            position: absolute;
+            left: 0;
+            color: #6a737d;
+            text-align: right;
+            width: 15px;
+            font-size: 12px;
+            user-select: none;
+        }
+        
+        .quiz-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .submit-btn {
+            background-color: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #3367d6;
+        }
+        
+        .hint-btn {
+            background-color: white;
+            color: #4285f4;
+            border: 1px solid #4285f4;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .hint-btn:hover {
+            background-color: #eaf4ff;
+        }
+        
+        .quiz-tabs {
+            display: flex;
+            margin-top: 40px;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .quiz-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: border-color 0.3s;
+        }
+        
+        .quiz-tab.active {
+            border-bottom-color: #4285f4;
+            color: #4285f4;
+            font-weight: 600;
+        }
+        
+        .quiz-list {
+            margin-top: 25px;
+        }
+        
+        .quiz-list-item {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .quiz-list-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .quiz-list-title {
+            font-weight: 500;
+        }
+        
+        .quiz-list-tags {
+            display: flex;
+            gap: 8px;
+            font-size: 0.8rem;
+        }
+        
+        .quiz-tag {
+            padding: 3px 8px;
+            border-radius: 12px;
+            background-color: #eee;
+        }
+        
+        .quiz-tag.javascript {
+            background-color: #fff8c5;
+            color: #735c0f;
+        }
+        
+        .quiz-tag.python {
+            background-color: #e7f5ff;
+            color: #1971c2;
+        }
+        
+        .quiz-tag.algorithm {
+            background-color: #f3f0ff;
+            color: #5f3dc4;
+        }
+        
+        .leaderboard {
+            margin-top: 25px;
+        }
+        
+        .leaderboard-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .leaderboard-table th,
+        .leaderboard-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .leaderboard-table th {
+            font-weight: 600;
+            color: #6a737d;
+            background-color: #f6f8fa;
+        }
+        
+        .user-rank {
+            font-weight: 600;
+            color: #24292e;
+        }
+        
+        .user-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .user-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background-color: #ddd;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: #666;
+        }
+        
+        .user-score {
+            font-weight: 600;
+            color: #4285f4;
+        }
+        
+        .code-editor textarea {
+            width: 100%;
+            height: 150px;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            font-size: 14px;
+            padding: 10px 0 0 20px;
+            border: none;
+            background-color: transparent;
+            color: #24292e;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+        
+        .result-container {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .result-success {
+            background-color: #e6ffed;
+            border: 1px solid #34d058;
+        }
+        
+        .result-error {
+            background-color: #ffeef0;
+            border: 1px solid #ea4335;
+        }
+        
+        .feedback-container {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f6f8fa;
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .feedback-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #4285f4;
+        }
+        
+        .progress-indicator {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4285f4;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 2s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html" style="color: white; text-decoration: none;">Figgle</a></h1>
+        <nav>
+            <a href='../index.html'>홈</a>
+            <a href='ai-secretary.html'>AI 비서</a>
+            <a href='ai-tutor.html'>AI 튜터</a>
+            <a href='ai-facilitator.html'>AI 퍼실리테이터</a>
+            <a href='ai-reflection.html'>AI 리플렉션</a>
+            <a href='daily-message.html'>1Day1Message</a>
+            <a href='ai-exam.html'>AI 시험관리</a>
+            <a href='ai-coding-quiz.html'>AI 코딩 퀴즈</a>
+        </nav>
+    </header>
+    <main>
+        <div class="feature-detail">
+            <h1>AI 코딩 퀴즈</h1>
+            <p>실시간으로 AI가 생성하고 평가하는 맞춤형 코딩 퀴즈로 프로그래밍 실력을 향상시켜보세요. 레벨별 다양한 문제와 즉각적인 피드백으로 효과적인 학습 경험을 제공합니다.</p>
+            
+            <div class="quiz-card">
+                <div class="quiz-header">
+                    <div class="quiz-title">배열에서 중복 요소 제거하기</div>
+                    <div class="quiz-level">초급</div>
+                </div>
+                <div class="quiz-description">
+                    <p>주어진 배열에서 중복된 요소를 제거하고 고유한 값만 포함하는 새 배열을 반환하는 함수를 작성하세요. 원래 배열의 순서를 유지해야 합니다.</p>
+                    <p>예시:</p>
+                    <ul>
+                        <li>입력: [1, 2, 2, 3, 4, 4, 5]</li>
+                        <li>출력: [1, 2, 3, 4, 5]</li>
+                    </ul>
+                </div>
+                <div class="code-editor">
+                    <div class="code-editor-header">
+                        <span>solution.js</span>
+                        <span class="language-label">JavaScript</span>
+                    </div>
+                    <textarea id="code-input">function removeDuplicates(arr) {
+  // 여기에 코드를 작성하세요
+  
+}</textarea>
+                </div>
+                
+                <div class="progress-indicator">
+                    <div class="loader"></div>
+                    <p>AI가 코드를 분석 중입니다...</p>
+                </div>
+                
+                <div id="result-container" class="result-container">
+                    <div id="result-message"></div>
+                </div>
+                
+                <div id="feedback-container" class="feedback-container">
+                    <div class="feedback-title">AI 피드백</div>
+                    <div id="feedback-content"></div>
+                </div>
+                
+                <div class="quiz-actions">
+                    <button class="submit-btn">제출하기</button>
+                    <button class="hint-btn">힌트 보기</button>
+                </div>
+            </div>
+            
+            <h2>모든 코딩 퀴즈</h2>
+            <div class="quiz-tabs">
+                <div class="quiz-tab active">모든 퀴즈</div>
+                <div class="quiz-tab">초급</div>
+                <div class="quiz-tab">중급</div>
+                <div class="quiz-tab">고급</div>
+                <div class="quiz-tab">리더보드</div>
+            </div>
+            
+            <div class="quiz-list">
+                <div class="quiz-list-item">
+                    <div class="quiz-list-title">배열에서 중복 요소 제거하기</div>
+                    <div class="quiz-list-tags">
+                        <span class="quiz-tag javascript">JavaScript</span>
+                        <span class="quiz-tag">배열</span>
+                    </div>
+                </div>
+                <div class="quiz-list-item">
+                    <div class="quiz-list-title">문자열 뒤집기</div>
+                    <div class="quiz-list-tags">
+                        <span class="quiz-tag javascript">JavaScript</span>
+                        <span class="quiz-tag">문자열</span>
+                    </div>
+                </div>
+                <div class="quiz-list-item">
+                    <div class="quiz-list-title">피보나치 수열 구현하기</div>
+                    <div class="quiz-list-tags">
+                        <span class="quiz-tag python">Python</span>
+                        <span class="quiz-tag algorithm">알고리즘</span>
+                    </div>
+                </div>
+                <div class="quiz-list-item">
+                    <div class="quiz-list-title">이진 탐색 구현하기</div>
+                    <div class="quiz-list-tags">
+                        <span class="quiz-tag javascript">JavaScript</span>
+                        <span class="quiz-tag algorithm">알고리즘</span>
+                    </div>
+                </div>
+                <div class="quiz-list-item">
+                    <div class="quiz-list-title">연결 리스트 역순으로 만들기</div>
+                    <div class="quiz-list-tags">
+                        <span class="quiz-tag python">Python</span>
+                        <span class="quiz-tag">자료구조</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="leaderboard" style="display:none;">
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>순위</th>
+                            <th>사용자</th>
+                            <th>점수</th>
+                            <th>해결한 퀴즈</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="user-rank">1</td>
+                            <td class="user-name">
+                                <div class="user-avatar">JK</div>
+                                <span>정기훈</span>
+                            </td>
+                            <td class="user-score">1250</td>
+                            <td>42</td>
+                        </tr>
+                        <tr>
+                            <td class="user-rank">2</td>
+                            <td class="user-name">
+                                <div class="user-avatar">SJ</div>
+                                <span>서지은</span>
+                            </td>
+                            <td class="user-score">1180</td>
+                            <td>39</td>
+                        </tr>
+                        <tr>
+                            <td class="user-rank">3</td>
+                            <td class="user-name">
+                                <div class="user-avatar">MS</div>
+                                <span>민성호</span>
+                            </td>
+                            <td class="user-score">1020</td>
+                            <td>34</td>
+                        </tr>
+                        <tr>
+                            <td class="user-rank">4</td>
+                            <td class="user-name">
+                                <div class="user-avatar">YJ</div>
+                                <span>윤재원</span>
+                            </td>
+                            <td class="user-score">980</td>
+                            <td>33</td>
+                        </tr>
+                        <tr>
+                            <td class="user-rank">5</td>
+                            <td class="user-name">
+                                <div class="user-avatar">HJ</div>
+                                <span>한지민</span>
+                            </td>
+                            <td class="user-score">910</td>
+                            <td>31</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h2>주요 기능</h2>
+            <ul>
+                <li><strong>맞춤형 코딩 퀴즈</strong> - 사용자의 실력과 학습 패턴에 맞는 맞춤형 퀴즈 제공</li>
+                <li><strong>다양한 프로그래밍 언어 지원</strong> - JavaScript, Python, Java 등 다양한 언어로 퀴즈 풀이 가능</li>
+                <li><strong>실시간 AI 코드 평가</strong> - 작성한 코드에 대한 즉각적인 평가와 피드백 제공</li>
+                <li><strong>힌트 시스템</strong> - 어려운 문제에 대한 단계별 힌트로 학습 효과 극대화</li>
+                <li><strong>난이도별 분류</strong> - 초급, 중급, 고급 등 실력에 맞는 문제 선택 가능</li>
+                <li><strong>성능 최적화 제안</strong> - 더 효율적인 코드 작성을 위한 최적화 방법 제안</li>
+                <li><strong>개념 학습 연계</strong> - 퀴즈와 관련된 프로그래밍 개념 학습 자료 연결</li>
+                <li><strong>리더보드 시스템</strong> - 다른 사용자들과의 경쟁을 통한 학습 동기 부여</li>
+                <li><strong>진행 상황 추적</strong> - 해결한 문제와 아직 도전하지 않은 문제 확인 가능</li>
+            </ul>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Figgle</p>
+    </footer>
+    
+    <script>
+        // 샘플 퀴즈 데이터
+        const quizzes = [
+            {
+                id: 1,
+                title: "배열에서 중복 요소 제거하기",
+                description: "주어진 배열에서 중복된 요소를 제거하고 고유한 값만 포함하는 새 배열을 반환하는 함수를 작성하세요. 원래 배열의 순서를 유지해야 합니다.",
+                difficulty: "초급",
+                language: "JavaScript",
+                templateCode: `function removeDuplicates(arr) {
+  // 여기에 코드를 작성하세요
+  
+}`,
+                exampleInput: "[1, 2, 2, 3, 4, 4, 5]",
+                exampleOutput: "[1, 2, 3, 4, 5]",
+                hint: "Set 객체를 사용하거나 filter() 메서드를 활용하여 중복을 제거할 수 있습니다.",
+                solutionPattern: /(Set|Array\.from|filter|reduce|forEach|\.includes|indexOf|\.push|\.map|\.includes)/i,
+                tags: ["JavaScript", "배열"]
+            },
+            {
+                id: 2,
+                title: "문자열 뒤집기",
+                description: "주어진 문자열을 뒤집어 반환하는 함수를 작성하세요.",
+                difficulty: "초급",
+                language: "JavaScript",
+                templateCode: `function reverseString(str) {
+  // 여기에 코드를 작성하세요
+  
+}`,
+                exampleInput: "'Hello, World!'",
+                exampleOutput: "'!dlroW ,olleH'",
+                hint: "문자열을 배열로 변환한 후 뒤집거나, 새 문자열을 만들어 거꾸로 순회할 수 있습니다.",
+                solutionPattern: /(split|reverse|join|charAt|for|while)/i,
+                tags: ["JavaScript", "문자열"]
+            },
+            {
+                id: 3,
+                title: "피보나치 수열 구현하기",
+                description: "n번째 피보나치 수를 반환하는 함수를 작성하세요. 피보나치 수열은 0, 1로 시작하며, 그 다음 숫자부터는 바로 앞 두 숫자의 합입니다.",
+                difficulty: "중급",
+                language: "Python",
+                templateCode: `def fibonacci(n):
+    # 여기에 코드를 작성하세요
+    pass`,
+                exampleInput: "10",
+                exampleOutput: "55",
+                hint: "재귀적 방법 또는 반복적 방법으로 구현할 수 있습니다. 큰 n의 경우 성능을 고려하세요.",
+                solutionPattern: /(fibonacci|fib|return|if|for|while|def|__)/i,
+                tags: ["Python", "알고리즘"]
+            }
+        ];
+        
+        // 현재 선택된 퀴즈 인덱스
+        let currentQuizIndex = 0;
+        
+        // 퀴즈 목록 아이템 클릭 이벤트 핸들러
+        document.querySelectorAll('.quiz-list-item').forEach((item, index) => {
+            item.addEventListener('click', function() {
+                currentQuizIndex = index;
+                loadQuiz(quizzes[index]);
+            });
+        });
+        
+        // 퀴즈 로드 함수
+        function loadQuiz(quiz) {
+            document.querySelector('.quiz-title').textContent = quiz.title;
+            document.querySelector('.quiz-level').textContent = quiz.difficulty;
+            document.querySelector('.quiz-level').className = 'quiz-level ' + quiz.difficulty.toLowerCase();
+            
+            const descriptionHTML = `
+                <p>${quiz.description}</p>
+                <p>예시:</p>
+                <ul>
+                    <li>입력: ${quiz.exampleInput}</li>
+                    <li>출력: ${quiz.exampleOutput}</li>
+                </ul>
+            `;
+            document.querySelector('.quiz-description').innerHTML = descriptionHTML;
+            
+            document.querySelector('.language-label').textContent = quiz.language;
+            document.getElementById('code-input').value = quiz.templateCode;
+            
+            // 결과 컨테이너 숨김
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('feedback-container').style.display = 'none';
+        }
+        
+        // 힌트 버튼 기능
+        document.querySelector('.hint-btn').addEventListener('click', function() {
+            const quiz = quizzes[currentQuizIndex];
+            alert(`힌트: ${quiz.hint}`);
+        });
+        
+        // 코드 제출 기능
+        document.querySelector('.submit-btn').addEventListener('click', function() {
+            const quiz = quizzes[currentQuizIndex];
+            const code = document.getElementById('code-input').value;
+            
+            // 진행 상태 표시
+            const progressIndicator = document.querySelector('.progress-indicator');
+            progressIndicator.style.display = 'block';
+            
+            // 결과 컨테이너 숨김
+            document.getElementById('result-container').style.display = 'none';
+            document.getElementById('feedback-container').style.display = 'none';
+            
+            // 코드 평가 시뮬레이션 (실제로는 서버로 전송하여 평가)
+            setTimeout(() => {
+                progressIndicator.style.display = 'none';
+                
+                const resultContainer = document.getElementById('result-container');
+                const resultMessage = document.getElementById('result-message');
+                const feedbackContainer = document.getElementById('feedback-container');
+                const feedbackContent = document.getElementById('feedback-content');
+                
+                // 패턴 매칭을 통한 간단한 평가
+                const isCorrect = quiz.solutionPattern.test(code);
+                
+                if (isCorrect) {
+                    resultContainer.className = 'result-container result-success';
+                    resultMessage.innerHTML = '<strong>성공!</strong> 정확한 해결책을 제시했습니다.';
+                    
+                    // 피드백 생성
+                    let feedback = '';
+                    
+                    if (code.includes('Set')) {
+                        feedback = `
+                            <p>👍 <strong>잘한 점:</strong> Set 객체를 활용하여 효율적으로 중복을 제거했습니다.</p>
+                            <p><strong>시간 복잡도:</strong> O(n) - 각 요소를 한 번씩만 처리합니다.</p>
+                            <p><strong>공간 복잡도:</strong> O(n) - 입력 배열 크기에 비례하는 추가 공간이 필요합니다.</p>
+                            <p><strong>추가 개선점:</strong> 매우 훌륭한 해결책입니다. Set 객체는 중복 제거에 이상적입니다.</p>
+                        `;
+                    } else if (code.includes('filter')) {
+                        feedback = `
+                            <p>👍 <strong>잘한 점:</strong> filter 메서드를 활용한 함수형 접근 방식이 코드를 간결하게 만들었습니다.</p>
+                            <p><strong>시간 복잡도:</strong> O(n²) - indexOf 메서드가 각 요소마다 배열을 검색합니다.</p>
+                            <p><strong>공간 복잡도:</strong> O(n) - 입력 배열 크기에 비례하는 새 배열이 생성됩니다.</p>
+                            <p><strong>추가 개선점:</strong> 대규모 배열의 경우 Set 객체를 사용하면 성능이 향상될 수 있습니다.</p>
+                        `;
+                    } else {
+                        feedback = `
+                            <p>👍 <strong>잘한 점:</strong> 문제를 성공적으로 해결했습니다.</p>
+                            <p><strong>추가 개선점:</strong> Set 객체나 filter 메서드를 활용하면 코드를 더 간결하게 작성할 수 있습니다.</p>
+                        `;
+                    }
+                    
+                    feedbackContent.innerHTML = feedback;
+                } else {
+                    resultContainer.className = 'result-container result-error';
+                    resultMessage.innerHTML = '<strong>오류:</strong> 문제를 정확히 해결하지 못했습니다.';
+                    
+                    // 오류 피드백
+                    feedbackContent.innerHTML = `
+                        <p>🔍 <strong>문제점:</strong> 제출한 코드가 중복을 효과적으로 제거하지 못하거나 원래 배열의 순서를 유지하지 못할 수 있습니다.</p>
+                        <p><strong>제안사항:</strong></p>
+                        <ul>
+                            <li>Set 객체를 사용하여 중복을 제거하고 Array.from()으로 변환할 수 있습니다.</li>
+                            <li>filter() 메서드와 indexOf()를 함께 사용하여 중복을 제거할 수 있습니다.</li>
+                            <li>함수가 새 배열을 반환하는지 확인하세요.</li>
+                        </ul>
+                        <p><strong>예시 해결책:</strong></p>
+                        <pre>function removeDuplicates(arr) {
+  return Array.from(new Set(arr));
+}</pre>
+                    `;
+                }
+                
+                resultContainer.style.display = 'block';
+                feedbackContainer.style.display = 'block';
+            }, 1500);
+        });
+        
+        // 탭 전환 기능
+        document.querySelectorAll('.quiz-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                // 모든 탭에서 active 클래스 제거
+                document.querySelectorAll('.quiz-tab').forEach(t => {
+                    t.classList.remove('active');
+                });
+                
+                // 클릭된 탭에 active 클래스 추가
+                this.classList.add('active');
+                
+                // 리더보드 탭인 경우 리더보드 표시
+                const leaderboard = document.querySelector('.leaderboard');
+                const quizList = document.querySelector('.quiz-list');
+                
+                if (this.textContent === '리더보드') {
+                    leaderboard.style.display = 'block';
+                    quizList.style.display = 'none';
+                } else {
+                    leaderboard.style.display = 'none';
+                    quizList.style.display = 'block';
+                    
+                    // 난이도별 필터링
+                    const difficulty = this.textContent;
+                    const quizItems = document.querySelectorAll('.quiz-list-item');
+                    
+                    if (difficulty === '모든 퀴즈') {
+                        quizItems.forEach(item => {
+                            item.style.display = 'flex';
+                        });
+                    } else {
+                        quizItems.forEach((item, index) => {
+                            if (index < quizzes.length && quizzes[index].difficulty === difficulty) {
+                                item.style.display = 'flex';
+                            } else {
+                                item.style.display = 'none';
+                            }
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

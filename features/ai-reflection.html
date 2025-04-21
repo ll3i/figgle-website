@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 리플렉션 - Figgle</title>
+    <link rel='stylesheet' href='../css/style.css'>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .feature-detail {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .feature-detail h1 {
+            color: #4285f4;
+            margin-bottom: 1rem;
+        }
+        
+        .feature-detail h2 {
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            color: #34a853;
+        }
+        
+        .feature-detail ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-detail li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .dashboard {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .dashboard-title {
+            margin: 0;
+            color: #4285f4;
+        }
+        
+        .time-selector {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .time-btn {
+            padding: 8px 12px;
+            border: none;
+            background: #e8e8e8;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .time-btn.active {
+            background: #4285f4;
+            color: white;
+        }
+        
+        .chart {
+            height: 250px;
+            background: #fff;
+            margin: 20px 0;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 200px;
+            padding: 10px;
+        }
+        
+        .bar {
+            flex: 1;
+            margin: 0 5px;
+            background: linear-gradient(to top, #4285f4, #5e97f5);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.8s ease;
+            position: relative;
+        }
+        
+        .bar-label {
+            text-align: center;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+        
+        .bar-container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            align-items: center;
+        }
+        
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4285f4;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 10px;
+            font-size: 11px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .bar:hover .bar-value {
+            opacity: 1;
+        }
+        
+        .stat-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .stat-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #4285f4;
+            margin-bottom: 8px;
+        }
+        
+        .stat-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .insights {
+            background: #e8f5e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .insights h3 {
+            color: #34a853;
+            margin-bottom: 15px;
+        }
+        
+        .insight-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .insight-icon {
+            background: #34a853;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        
+        .subject-tabs {
+            display: flex;
+            overflow-x: auto;
+            margin: 20px 0;
+            padding-bottom: 10px;
+        }
+        
+        .subject-tab {
+            padding: 10px 20px;
+            background: #f1f1f1;
+            border: none;
+            border-radius: 20px;
+            margin-right: 10px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+        
+        .subject-tab.active {
+            background: #4285f4;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><a href="../index.html" style="color: white; text-decoration: none;">Figgle</a></h1>
+        <nav>
+            <a href='../index.html'>홈</a>
+            <a href='ai-secretary.html'>AI 비서</a>
+            <a href='ai-tutor.html'>AI 튜터</a>
+            <a href='ai-facilitator.html'>AI 퍼실리테이터</a>
+            <a href='ai-reflection.html'>AI 리플렉션</a>
+            <a href='daily-message.html'>1Day1Message</a>
+            <a href='ai-exam.html'>AI 시험관리</a>
+            <a href='ai-coding-quiz.html'>AI 코딩 퀴즈</a>
+        </nav>
+    </header>
+    <main>
+        <div class="feature-detail">
+            <h1>AI 리플렉션 및 데이터 분석 대시보드</h1>
+            <p>AI 리플렉션은 학습 과정을 분석하고 패턴을 파악하여 개인화된 인사이트를 제공합니다. 학습 시간, 집중도, 효율성 등 다양한 데이터를 시각화하여 학습 개선에 도움을 줍니다.</p>
+            
+            <h2>주요 기능</h2>
+            <ul>
+                <li><strong>학습 패턴 시각화 및 분석</strong> - 학습 시간, 집중도, 성취도 등의 데이터를 시각적으로 제공</li>
+                <li><strong>개인화된 피드백 제공</strong> - 학습 데이터를 바탕으로 맞춤형 개선 방안 제시</li>
+                <li><strong>최적의 학습 시간 추천</strong> - 개인별 생체 리듬과 학습 효율성을 분석하여 최적 학습 시간대 제안</li>
+                <li><strong>학습 습관 개선 가이드</strong> - 데이터에 기반한 효과적인 학습 습관 개발 지원</li>
+                <li><strong>시간 관리 분석 및 최적화</strong> - 시간 사용 패턴을 분석하고 효율적인 시간 관리 방안 제안</li>
+                <li><strong>과목별 강점 및 약점 분석</strong> - 각 과목별 성취도와 학습 패턴 분석을 통한 균형 잡힌 학습 계획 수립</li>
+            </ul>
+            
+            <h2>과목별 분석</h2>
+            <div class="subject-tabs">
+                <button class="subject-tab active">전체</button>
+                <button class="subject-tab">수학</button>
+                <button class="subject-tab">과학</button>
+                <button class="subject-tab">영어</button>
+                <button class="subject-tab">국어</button>
+                <button class="subject-tab">사회</button>
+            </div>
+            
+            <h2>데이터 분석 대시보드</h2>
+            <div class='dashboard'>
+                <div class="dashboard-header">
+                    <h3 class="dashboard-title">주간 학습 현황</h3>
+                    <div class="time-selector">
+                        <button class="time-btn">일간</button>
+                        <button class="time-btn active">주간</button>
+                        <button class="time-btn">월간</button>
+                    </div>
+                </div>
+                
+                <div class='chart'>
+                    <div class='bar-chart'>
+                        <div class='bar-container'>
+                            <div class='bar' style='height:40%'>
+                                <span class="bar-value">2시간</span>
+                            </div>
+                            <div class='bar-label'>월</div>
+                        </div>
+                        <div class='bar-container'>
+                            <div class='bar' style='height:65%'>
+                                <span class="bar-value">3.5시간</span>
+                            </div>
+                            <div class='bar-label'>화</div>
+                        </div>
+                        <div class='bar-container'>
+                            <div class='bar' style='height:30%'>
+                                <span class="bar-value">1.5시간</span>
+                            </div>
+                            <div class='bar-label'>수</div>
+                        </div>
+                        <div class='bar-container'>
+                            <div class='bar' style='height:80%'>
+                                <span class="bar-value">4시간</span>
+                            </div>
+                            <div class='bar-label'>목</div>
+                        </div>
+                        <div class='bar-container'>
+                            <div class='bar' style='height:55%'>
+                                <span class="bar-value">3시간</span>
+                            </div>
+                            <div class='bar-label'>금</div>
+                        </div>
+                        <div class='bar-container'>
+                            <div class='bar' style='height:25%'>
+                                <span class="bar-value">1.2시간</span>
+                            </div>
+                            <div class='bar-label'>토</div>
+                        </div>
+                        <div class='bar-container'>
+                            <div class='bar' style='height:20%'>
+                                <span class="bar-value">1시간</span>
+                            </div>
+                            <div class='bar-label'>일</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <h3>학습 지표</h3>
+                <div class='stat-cards'>
+                    <div class='stat-card'>
+                        <div class='stat-number'>85%</div>
+                        <div class='stat-label'>출석률</div>
+                    </div>
+                    <div class='stat-card'>
+                        <div class='stat-number'>16.2</div>
+                        <div class='stat-label'>주간 학습시간</div>
+                    </div>
+                    <div class='stat-card'>
+                        <div class='stat-number'>75%</div>
+                        <div class='stat-label'>과제 완료율</div>
+                    </div>
+                    <div class='stat-card'>
+                        <div class='stat-number'>80%</div>
+                        <div class='stat-label'>실시간 퀴즈 정답률</div>
+                    </div>
+                </div>
+                
+                <div class="insights">
+                    <h3>AI 분석 인사이트</h3>
+                    <div class="insight-item">
+                        <div class="insight-icon">✓</div>
+                        <div>
+                            <strong>학습 패턴:</strong> 목요일에 학습 효율이 가장 높으며, 주말에는 학습량이 감소합니다. 주말에도 일정 시간 학습을 유지하면 주중 학습 효과를 높일 수 있습니다.
+                        </div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-icon">✓</div>
+                        <div>
+                            <strong>집중도 향상:</strong> 오후 3시~5시 사이에 학습 집중도가 가장 높습니다. 이 시간대에 중요한 과제나 어려운 내용을 학습하면 효율적입니다.
+                        </div>
+                    </div>
+                    <div class="insight-item">
+                        <div class="insight-icon">✓</div>
+                        <div>
+                            <strong>개선 포인트:</strong> 수학 과목에서 문제 풀이 시간이 평균보다 15% 길게 소요됩니다. 기본 개념을 복습하고 유형별 문제 풀이 연습을 늘리는 것이 도움이 될 수 있습니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2023 Figgle</p>
+    </footer>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 차트 데이터 - 각 요일별 학습 시간(시간)
+            const weekdayData = {
+                '월': 2,
+                '화': 3.5,
+                '수': 1.5,
+                '목': 4,
+                '금': 3,
+                '토': 1.2,
+                '일': 1
+            };
+            
+            // 월간 데이터 (간단한 예시)
+            const monthlyData = {
+                '1주': 14,
+                '2주': 16.2,
+                '3주': 12.5,
+                '4주': 18
+            };
+            
+            // 일간 데이터 (간단한 예시 - 하루 내 시간대별)
+            const dailyData = {
+                '오전 6-8시': 0.5,
+                '오전 8-10시': 1.2,
+                '오전 10-12시': 0.8,
+                '오후 12-2시': 0.3,
+                '오후 2-4시': 1.5,
+                '오후 4-6시': 0.9,
+                '오후 6-8시': 0.4
+            };
+            
+            // 과목별 데이터
+            const subjectData = {
+                '전체': weekdayData,
+                '수학': {
+                    '월': 0.8,
+                    '화': 1.2,
+                    '수': 0.5,
+                    '목': 1.5,
+                    '금': 1.0,
+                    '토': 0.4,
+                    '일': 0.3
+                },
+                '과학': {
+                    '월': 0.5,
+                    '화': 0.8,
+                    '수': 0.3,
+                    '목': 1.2,
+                    '금': 0.6,
+                    '토': 0.3,
+                    '일': 0.2
+                },
+                '영어': {
+                    '월': 0.4,
+                    '화': 0.7,
+                    '수': 0.5,
+                    '목': 0.7,
+                    '금': 0.9,
+                    '토': 0.3,
+                    '일': 0.2
+                },
+                '국어': {
+                    '월': 0.2,
+                    '화': 0.5,
+                    '수': 0.1,
+                    '목': 0.3,
+                    '금': 0.3,
+                    '토': 0.1,
+                    '일': 0.2
+                },
+                '사회': {
+                    '월': 0.1,
+                    '화': 0.3,
+                    '수': 0.1,
+                    '목': 0.3,
+                    '금': 0.2,
+                    '토': 0.1,
+                    '일': 0.1
+                }
+            };
+            
+            // 현재 상태 변수
+            let currentPeriod = 'weekly'; // 'daily', 'weekly', 'monthly'
+            let currentSubject = '전체';
+            let currentData = weekdayData;
+            
+            // 차트 업데이트 함수
+            function updateChart(data) {
+                const barChart = document.querySelector('.bar-chart');
+                if (!barChart) return;
+                
+                // 기존 차트 내용 제거
+                barChart.innerHTML = '';
+                
+                // 데이터를 기반으로 최대값 찾기
+                const maxValue = Math.max(...Object.values(data));
+                
+                // 각 데이터에 대한 바 생성
+                Object.keys(data).forEach(key => {
+                    const value = data[key];
+                    const percentage = (value / maxValue) * 100;
+                    
+                    const barContainer = document.createElement('div');
+                    barContainer.className = 'bar-container';
+                    
+                    const bar = document.createElement('div');
+                    bar.className = 'bar';
+                    bar.style.height = '0'; // 애니메이션을 위해 초기값은 0으로 설정
+                    
+                    const barValue = document.createElement('span');
+                    barValue.className = 'bar-value';
+                    barValue.textContent = currentPeriod === 'weekly' ? `${value}시간` : 
+                                          currentPeriod === 'monthly' ? `${value}시간` : `${value}시간`;
+                    
+                    const barLabel = document.createElement('div');
+                    barLabel.className = 'bar-label';
+                    barLabel.textContent = key;
+                    
+                    bar.appendChild(barValue);
+                    barContainer.appendChild(bar);
+                    barContainer.appendChild(barLabel);
+                    barChart.appendChild(barContainer);
+                    
+                    // 애니메이션 적용
+                    setTimeout(() => {
+                        bar.style.height = `${percentage}%`;
+                    }, 100);
+                });
+            }
+            
+            // 시간 선택기 이벤트 리스너
+            const timeButtons = document.querySelectorAll('.time-btn');
+            timeButtons.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const activeBtn = document.querySelector('.time-btn.active');
+                    if (activeBtn) {
+                        activeBtn.classList.remove('active');
+                    }
+                    this.classList.add('active');
+                    
+                    // 선택된 기간에 따라 데이터 업데이트
+                    const period = this.textContent.trim();
+                    if (period === '일간') {
+                        currentPeriod = 'daily';
+                        currentData = dailyData;
+                        document.querySelector('.dashboard-title').textContent = '일간 학습 현황';
+                    } else if (period === '주간') {
+                        currentPeriod = 'weekly';
+                        currentData = subjectData[currentSubject];
+                        document.querySelector('.dashboard-title').textContent = '주간 학습 현황';
+                    } else if (period === '월간') {
+                        currentPeriod = 'monthly';
+                        currentData = monthlyData;
+                        document.querySelector('.dashboard-title').textContent = '월간 학습 현황';
+                    }
+                    
+                    updateChart(currentData);
+                    updateStats(currentPeriod, currentSubject);
+                });
+            });
+            
+            // 과목 탭 이벤트 리스너
+            const subjectTabs = document.querySelectorAll('.subject-tab');
+            subjectTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const activeTab = document.querySelector('.subject-tab.active');
+                    if (activeTab) {
+                        activeTab.classList.remove('active');
+                    }
+                    this.classList.add('active');
+                    
+                    // 선택된 과목에 따라 데이터 업데이트
+                    currentSubject = this.textContent.trim();
+                    if (currentPeriod === 'weekly') {
+                        currentData = subjectData[currentSubject];
+                        updateChart(currentData);
+                        updateStats(currentPeriod, currentSubject);
+                    }
+                });
+            });
+            
+            // 통계 업데이트 함수
+            function updateStats(period, subject) {
+                const statCards = document.querySelectorAll('.stat-card .stat-number');
+                if (statCards.length >= 4) {
+                    // 출석률
+                    const attendance = period === 'weekly' ? 
+                        (subject === '전체' ? 85 : Math.floor(70 + Math.random() * 25)) : 
+                        (period === 'monthly' ? 82 : 90);
+                    
+                    // 학습 시간
+                    const studyTime = period === 'weekly' ? 
+                        (subject === '전체' ? 16.2 : 
+                            Object.values(subjectData[subject]).reduce((a, b) => a + b, 0)) : 
+                        (period === 'monthly' ? 60.7 : 5.6);
+                    
+                    // 과제 완료율
+                    const taskCompletion = period === 'weekly' ? 
+                        (subject === '전체' ? 75 : Math.floor(65 + Math.random() * 30)) : 
+                        (period === 'monthly' ? 78 : 80);
+                    
+                    // 퀴즈 정답률
+                    const quizRate = period === 'weekly' ? 
+                        (subject === '전체' ? 80 : Math.floor(70 + Math.random() * 25)) : 
+                        (period === 'monthly' ? 82 : 85);
+                    
+                    // 애니메이션 효과로 숫자 업데이트
+                    animateValue(statCards[0], parseInt(statCards[0].textContent), attendance, 1000, '%');
+                    animateValue(statCards[1], parseFloat(statCards[1].textContent), studyTime, 1000, '');
+                    animateValue(statCards[2], parseInt(statCards[2].textContent), taskCompletion, 1000, '%');
+                    animateValue(statCards[3], parseInt(statCards[3].textContent), quizRate, 1000, '%');
+                }
+            }
+            
+            // 숫자 애니메이션 함수
+            function animateValue(element, start, end, duration, suffix) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const value = progress * (end - start) + start;
+                    element.textContent = suffix === '%' ? 
+                        Math.floor(value) + suffix : 
+                        value.toFixed(1);
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            // 초기 차트 및 통계 렌더링
+            updateChart(weekdayData);
+            
+            // 바 차트 애니메이션 - 기존 코드 수정
+            const bars = document.querySelectorAll('.bar');
+            bars.forEach(bar => {
+                const currentHeight = bar.style.height;
+                bar.style.height = '0';
+                setTimeout(() => {
+                    bar.style.height = currentHeight;
+                }, 300);
+            });
+        });
+    </script>
+</body>
+</html>
