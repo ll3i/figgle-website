@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인 - Co:Re</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- 추가 CSS -->
+    <style>
+        .login-section {
+            min-height: calc(100vh - 80px - 300px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 0;
+        }
+        
+        .login-container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .login-container h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .login-intro {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+        
+        .login-form .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .login-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .login-form input[type="email"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .login-form input:focus {
+            border-color: #4C84FF;
+            outline: none;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        
+        .login-options {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-password {
+            color: #666;
+            text-decoration: none;
+            font-size: 14px;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-block {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .social-login {
+            margin-top: 30px;
+            text-align: center;
+        }
+        
+        .social-login p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .social-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 12px;
+            border-radius: 5px;
+            font-weight: 500;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .btn-google {
+            background-color: #DB4437;
+        }
+        
+        .btn-google:hover {
+            background-color: #C53929;
+        }
+        
+        .btn-kakao {
+            background-color: #FEE500;
+            color: #000;
+        }
+        
+        .btn-kakao:hover {
+            background-color: #E6CF00;
+        }
+        
+        .btn-social i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .signup-link a {
+            color: #4C84FF;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="navbar">
+        <div class="container">
+            <a href="/" class="logo">Co:Re</a>
+            <nav>
+                <ul class="main-nav">
+                    <li><a href="features/ai-tutor.html">AI 튜터</a></li>
+                    <li><a href="features/daily-message.html">1Day1Message</a></li>
+                    <li><a href="features/ai-facilitator.html">AI 퍼실리테이터</a></li>
+                    <li><a href="features/ai-reflection.html">AI 리플렉션</a></li>
+                    <li><a href="features/ai-exam.html">AI 시험관리</a></li>
+                    <li><a href="features/ai-secretary.html">AI 비서</a></li>
+                    <li><a href="features/ai-coding-quiz.html">AI 코딩 퀴즈</a></li>
+                </ul>
+            </nav>
+            <div class="auth-buttons">
+                <a href="signup.html" class="btn btn-primary">회원가입</a>
+                <a href="login.html" class="btn btn-secondary">로그인</a>
+            </div>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <section class="login-section">
+            <div class="container">
+                <div class="login-container">
+                    <h1>Co:Re 로그인</h1>
+                    <p class="login-intro">Co:Re 계정으로 로그인하여 AI 학습을 시작하세요</p>
+                    
+                    <form id="loginForm" class="login-form">
+                        <div class="form-group">
+                            <label for="email">이메일</label>
+                            <input type="email" id="email" name="email" placeholder="이메일을 입력하세요" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">비밀번호</label>
+                            <input type="password" id="password" name="password" placeholder="비밀번호를 입력하세요" required>
+                        </div>
+                        
+                        <div class="login-options">
+                            <div class="checkbox-group">
+                                <input type="checkbox" id="rememberMe" name="rememberMe">
+                                <label for="rememberMe">로그인 상태 유지</label>
+                            </div>
+                            <a href="#" class="forgot-password">비밀번호를 잊으셨나요?</a>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-block">로그인</button>
+                    </form>
+                    
+                    <div class="social-login">
+                        <p>또는 소셜 계정으로 로그인하기</p>
+                        <div class="social-buttons">
+                            <button class="btn btn-social btn-google">
+                                <i class="fab fa-google"></i> Google 계정으로 로그인
+                            </button>
+                            <button class="btn btn-social btn-kakao">
+                                <i class="fab fa-kickstarter-k"></i> Kakao 계정으로 로그인
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <p class="signup-link">아직 계정이 없으신가요? <a href="signup.html">회원가입</a></p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Co:Re</h3>
+                    <p>미래 학습을 위한 AI 플랫폼</p>
+                </div>
+                <div class="footer-links">
+                    <div class="footer-column">
+                        <h4>기능 살펴보기</h4>
+                        <ul>
+                            <li><a href="features/ai-tutor.html">AI 튜터</a></li>
+                            <li><a href="features/daily-message.html">1Day1Message</a></li>
+                            <li><a href="features/ai-facilitator.html">AI 퍼실리테이터</a></li>
+                            <li><a href="features/ai-reflection.html">AI 리플렉션</a></li>
+                            <li><a href="features/ai-exam.html">AI 시험관리</a></li>
+                            <li><a href="features/ai-secretary.html">AI 비서</a></li>
+                            <li><a href="features/ai-coding-quiz.html">AI 코딩 퀴즈</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>회사 정보</h4>
+                        <ul>
+                            <li><a href="#">소개</a></li>
+                            <li><a href="#">팀</a></li>
+                            <li><a href="#">블로그</a></li>
+                            <li><a href="#">채용</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>지원</h4>
+                        <ul>
+                            <li><a href="#">도움말 센터</a></li>
+                            <li><a href="#">자주 묻는 질문</a></li>
+                            <li><a href="#">문의하기</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h4>법률</h4>
+                        <ul>
+                            <li><a href="#">이용약관</a></li>
+                            <li><a href="#">개인정보처리방침</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Co:Re. All rights reserved.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- 자바스크립트 -->
+    <script src="js/main.js"></script>
+    <script>
+        // 로그인 폼 제출 처리
+        const loginForm = document.getElementById('loginForm');
+        
+        if (loginForm) {
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 여기에 로그인 처리 로직 추가
+                // 예: 서버에 인증 요청 등
+                
+                alert('로그인 성공!');
+                window.location.href = 'dashboard.html';
+            });
+        }
+    </script>
+</body>
+</html> 

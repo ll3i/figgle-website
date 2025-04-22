@@ -1,4 +1,4 @@
-// Figgle 메인 자바스크립트 파일
+// Co:Re 메인 자바스크립트 파일
 
 document.addEventListener('DOMContentLoaded', () => {
   // 스크롤 애니메이션 효과
