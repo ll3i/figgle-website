@@ -1,7 +1,7 @@
 // 1Day1Message 기능 구현
 class DailyMessage {
     constructor() {
-        this.apiEndpoint = 'https://api.figgle.ai/v1/daily-message';
+        this.apiEndpoint = 'https://api.core.ai/v1/daily-message';
         this.userId = null;
         this.messageHistory = [];
         this.todayMessage = null;

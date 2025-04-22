@@ -1,7 +1,7 @@
 // AI 시험관리 기능 구현
 class AIExam {
     constructor() {
-        this.apiEndpoint = 'https://api.figgle.ai/v1/exam';
+        this.apiEndpoint = 'https://api.core.ai/v1/exam';
         this.userId = null;
         this.exams = [];
         this.currentExam = null;

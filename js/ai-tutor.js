@@ -1,7 +1,7 @@
 // AI 튜터 기능 구현
 class AITutor {
     constructor() {
-        this.apiEndpoint = 'https://api.figgle.ai/v1/tutor'; // 실제 백엔드 API 엔드포인트로 변경 필요
+        this.apiEndpoint = 'https://api.core.ai/v1/tutor'; // 실제 백엔드 API 엔드포인트로 변경 필요
         this.conversationHistory = [];
         this.isProcessing = false;
         this.subjectArea = null;
@@ -18,11 +18,11 @@ class AITutor {
     // 초기 인사 메시지
     getInitialGreeting() {
         const greetings = {
-            'general': '안녕하세요! Figgle AI 튜터입니다. 어떤 과목의 학습을 도와드릴까요?',
-            'math': '안녕하세요! 수학 학습을 도와드릴 Figgle AI 튜터입니다. 어떤 개념에 대해 알고 싶으신가요?',
-            'programming': '안녕하세요! 프로그래밍 학습을 도와드릴 Figgle AI 튜터입니다. 어떤 언어나 개념이 궁금하신가요?',
-            'science': '안녕하세요! 과학 학습을 도와드릴 Figgle AI 튜터입니다. 어떤 주제에 관심이 있으신가요?',
-            'language': '안녕하세요! 언어 학습을 도와드릴 Figgle AI 튜터입니다. 어떤 부분을 연습하고 싶으신가요?'
+            'general': '안녕하세요! Co:Re AI 튜터입니다. 어떤 과목의 학습을 도와드릴까요?',
+            'math': '안녕하세요! 수학 학습을 도와드릴 Co:Re AI 튜터입니다. 어떤 개념에 대해 알고 싶으신가요?',
+            'programming': '안녕하세요! 프로그래밍 학습을 도와드릴 Co:Re AI 튜터입니다. 어떤 언어나 개념이 궁금하신가요?',
+            'science': '안녕하세요! 과학 학습을 도와드릴 Co:Re AI 튜터입니다. 어떤 주제에 관심이 있으신가요?',
+            'language': '안녕하세요! 언어 학습을 도와드릴 Co:Re AI 튜터입니다. 어떤 부분을 연습하고 싶으신가요?'
         };
         
         return greetings[this.subjectArea] || greetings['general'];

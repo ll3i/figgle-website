@@ -1,7 +1,7 @@
 // AI 리플렉션 기능 구현
 class AIReflection {
     constructor() {
-        this.apiEndpoint = 'https://api.figgle.ai/v1/reflection';
+        this.apiEndpoint = 'https://api.core.ai/v1/reflection';
         this.userId = null;
         this.learningData = [];
         this.insights = null;

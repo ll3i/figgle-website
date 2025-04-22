@@ -1,7 +1,7 @@
 // AI 코딩 퀴즈 기능 구현
 class AICodingQuiz {
     constructor() {
-        this.apiEndpoint = 'https://api.figgle.ai/v1/coding-quiz';
+        this.apiEndpoint = 'https://api.core.ai/v1/coding-quiz';
         this.userId = null;
         this.quizzes = [];
         this.currentQuiz = null;
@@ -50,7 +50,7 @@ class AICodingQuiz {
                 },
                 testCases: [
                     { input: '"hello"', expected: '"olleh"', isHidden: false },
-                    { input: '"Figgle"', expected: '"elggiF"', isHidden: false },
+                    { input: '"Co:Re"', expected: '"eR:oC"', isHidden: false },
                     { input: '"a"', expected: '"a"', isHidden: false },
                     { input: '""', expected: '""', isHidden: false },
                     { input: '"Hello World!"', expected: '"!dlroW olleH"', isHidden: true }

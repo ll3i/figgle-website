@@ -1,7 +1,7 @@
 // AI 퍼실리테이터 기능 구현
 class AIFacilitator {
     constructor() {
-        this.apiEndpoint = 'https://api.figgle.ai/v1/facilitator';
+        this.apiEndpoint = 'https://api.core.ai/v1/facilitator';
         this.sessionId = null;
         this.participants = [];
         this.topics = [];

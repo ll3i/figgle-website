@@ -1,7 +1,7 @@
 // AI 비서 기능 구현
 class AISecretary {
     constructor() {
-        this.apiEndpoint = 'https://api.figgle.ai/v1/secretary'; // 실제 백엔드 API 엔드포인트로 변경 필요
+        this.apiEndpoint = 'https://api.core.ai/v1/secretary'; // 실제 백엔드 API 엔드포인트로 변경 필요
         this.isRecording = false;
         this.recognitionActive = false;
         this.transcript = [];
